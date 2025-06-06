@@ -1,14 +1,17 @@
 "use client"
 
-import { useEffect } from 'react';
+import { useEffect,useRef } from 'react';
 
 const GlowCard = ({ children , identifier}) => {
+  const containerRef = useRef(null);
+  const cardRef = useRef(null);
+
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const CONTAINER = document.querySelector(`.glow-container-${identifier}`);
-    const CARDS = document.querySelectorAll(`.glow-card-${identifier}`);
+    const CONTAINER = containerRef.current;
+    const CARD = cardRef.current;
 
-    if (!CONTAINER || !CARDS) return;
+    if (!CONTAINER || CARD.length === 0) return;
 
     const CONFIG = {
       proximity: 40,
@@ -20,7 +23,7 @@ const GlowCard = ({ children , identifier}) => {
     };
 
     const UPDATE = (event) => {
-      for (const CARD of CARDS) {
+      
         const CARD_BOUNDS = CARD.getBoundingClientRect();
 
         if (
@@ -47,7 +50,7 @@ const GlowCard = ({ children , identifier}) => {
         ANGLE = ANGLE < 0 ? ANGLE + 360 : ANGLE;
 
         CARD.style.setProperty('--start', ANGLE + 90);
-      }
+
     };
 
     document.body.addEventListener('pointermove', UPDATE);
@@ -72,8 +75,11 @@ const GlowCard = ({ children , identifier}) => {
   }, [identifier]);
 
   return (
-    <div className={`glow-container-${identifier} glow-container`}>
-      <article className={`glow-card glow-card-${identifier} h-fit cursor-pointer border border-[#2a2e5a] transition-all duration-300 relative bg-[#101123] text-gray-200 rounded-xl hover:border-transparent w-full`}>
+    <div ref={containerRef} className={`glow-container-${identifier} glow-container`}>
+      <article
+        ref={cardRef}
+        className={`glow-card glow-card-${identifier} h-fit cursor-pointer border border-[#2a2e5a] transition-all duration-300 relative bg-[#101123] text-gray-200 rounded-xl hover:border-transparent w-full`}
+      >
         <div className="glows"></div>
         {children}
       </article>
