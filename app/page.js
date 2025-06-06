@@ -24,7 +24,7 @@ import Skills from "./components/homepage/skills";
   return filtered;
 }; */
 
-export default async function Home() {
+export default function Home() {
   //const blogs = await getData();
 
   return (
