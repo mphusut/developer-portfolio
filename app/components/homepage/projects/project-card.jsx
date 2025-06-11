@@ -62,6 +62,7 @@ function ProjectCard({ project }) {
             <span className="text-gray-400">,</span>
           </div>
           <div><span className="text-gray-400">{`};`}</span></div>
+          
         </code>
       </div>
     </div>
